@@ -1,6 +1,6 @@
 {
-  "short_name": "HV Data",
-  "name": "Human Vitals Data",
+  "short_name": "CC Data",
+  "name": "Covid Check Data",
   "icons": [
     {
       "src": "favicon.ico",

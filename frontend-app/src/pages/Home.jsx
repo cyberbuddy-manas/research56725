@@ -1,104 +1,85 @@
-import React from 'react'
-import { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 
-// '#FF3333' (Red): Extremely Low (Critical) SPO2 range (<= 78%)
-// '#FF9933' (Orange): Very Low (Severe) SPO2 range (< 90%)
-// '#FFFF33' (Yellow): Low (Moderate) SPO2 range (< 92%)
-// '#66CC66' (Green): Average (Mild) SPO2 range (92-96%)
-// '#3333FF' (Blue): High SPO2 range (> 96%)
-
-const getColorForSPO2 = (spo2) => {
-    if (spo2 <= 78) {
-        return '#FF3333'; // Critical - Red
-    } else if (spo2 < 90) {
-        return '#FF9933'; // Severe - Orange
-    } else if (spo2 < 92) {
-        return '#FFFF33'; // Moderate - Yellow
-    } else if (spo2 <= 96) {
-        return '#66CC66'; // Mild - Green
-    } else {
-        return '#3333FF'; // High - Blue
+const getColorForFEVER = (fever) => {
+    if (fever > 90 && fever < 96.5) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (fever > 96.5 && fever < 99.9) {
+        return '#66CC66'; // Normal - Green
+    } else if (fever > 99.9) {
+        return '#FF3333'; // Hyperthermia - Red
     }
 };
 
-const getColorForSBP = (sbp) => {
-    if (sbp < 90) {
-        return '#FF3333'; // Normal - Red
-    } else if (sbp < 110) {
-        return '#FF9933'; // Mild - Orange
-    } else if (sbp < 120) {
-        return '#FFFF33'; // Moderate - Yellow
-    } else if (sbp < 130) {
-        return '#66CC66'; // Severe - Green
-    } else {
-        return '#3333FF'; // Critical - Blue
+const getColorForCOUGH = (cough) => {
+    if (cough == 1) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (cough == 0) {
+        return '#66CC66'; // Normal - Green
     }
 };
 
-const getColorForDBP = (dbp) => {
-    if (dbp < 60) {
-        return '#FF3333'; // Critical - Red
-    } else if (dbp < 80) {
-        return '#FF9933'; // Severe - Orange
-    } else if (dbp < 90) {
-        return '#FFFF33'; // Moderate - Yellow
-    } else if (dbp < 120) {
-        return '#66CC66'; // Mild - Green
-    } else {
-        return '#3333FF'; // High - Blue
+const getColorForBREATHING_DIFFICULTY = (BREATHING_DIFFICULTY) => {
+    if (BREATHING_DIFFICULTY == 1) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (BREATHING_DIFFICULTY == 0) {
+        return '#66CC66'; // Normal - Green
     }
 };
 
-const getColorForTemp = (temp) => {
-    if (temp < 90) {
-        return '#3333FF'; // Blue
-    } else if (temp < 96) {
-        return '#66CC66'; // Green
-    } else if (temp < 100) {
-        return '#FFFF33'; // Yellow
-    } else {
-        return '#FF3333'; // Red
+const getColorForFATIGUE = (FATIGUE) => {
+    if (FATIGUE == 1) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (FATIGUE == 0) {
+        return '#66CC66'; // Normal - Green
     }
 };
 
-const getColorForPR = (pr) => {
-    if (pr < 50) {
-        return '#FF3333'; // Red
-    } else if (pr < 60) {
-        return '#FF9933'; // Orange
-    } else if (pr < 100) {
-        return '#66CC66'; // Green
-    } else if (pr < 120) {
-        return '#FFFF33'; // Yellow
-    } else {
-        return '#3333FF'; // Blue
+const getColorForLOSS_OF_SENSES = (LOSS_OF_SENSES) => {
+    if (LOSS_OF_SENSES == 1) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (LOSS_OF_SENSES == 0) {
+        return '#66CC66'; // Normal - Green
     }
 };
 
-const getColorForRR = (rr) => {
-    if (rr < 10) {
-        return '#FF3333'; // Red
-    } else if (rr < 12) {
-        return '#FF9933'; // Orange
-    } else if (rr < 20) {
-        return '#FFFF33'; // Yellow
-    } else if (rr < 30) {
-        return '#66CC66'; // Green
-    } else {
-        return '#3333FF'; // Blue
+const getColorForCONTACT_WITH_COVID_INFECTED = (CONTACT_WITH_COVID_INFECTED) => {
+    if (CONTACT_WITH_COVID_INFECTED == 1) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (CONTACT_WITH_COVID_INFECTED == 0) {
+        return '#66CC66'; // Normal - Green
+    }
+};
+
+const getColorForTRAVEL_HISTORY = (TRAVEL_HISTORY) => {
+    if (TRAVEL_HISTORY == 0) {
+        return '#66CC66'; // Hypothermia - GREEN
+    } else if (TRAVEL_HISTORY < 31 && TRAVEL_HISTORY > 15) {
+        return '#FF9933'; // Low Risk - Orange
+    } else if (TRAVEL_HISTORY < 15 && TRAVEL_HISTORY > 1) {
+        return '#FF3333'; // High Risk - Red
+    }
+};
+
+const getColorForCOVID_SUSPECTS = (COVID_SUSPECTS) => {
+    if (COVID_SUSPECTS >= 0.5) {
+        return '#FF3333'; // Hypothermia - Red
+    } else if (COVID_SUSPECTS < 0.5) {
+        return '#66CC66'; // Normal - Green
     }
 };
 
 function Home() {
     const [data, setData] = useState([]);
     const [num, setNum] = useState(1);
+    const [expanded, setExpanded] = useState(false);
     const field = useRef();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://research56724api.azurewebsites.net/data/' + num);
+                const response = await fetch('https://covidcheckapi.azurewebsites.net/data/' + num);
                 const jsonData = await response.json();
                 const sortedData = jsonData.sort((a, b) => a.SerialNumber - b.SerialNumber).reverse();
                 setData(sortedData);
@@ -123,49 +104,79 @@ function Home() {
     };
 
     function copyText() {
-        var copyText = document.getElementById("noti");
+        var copyText = document.getElementById('noti');
         navigator.clipboard.writeText(copyText.innerHTML);
-        alert("Text copied to clipboard!");
-    }
+        alert('Text copied to clipboard!');
+    };
+
+    const renderTableRows = () => {
+        const fieldsToRender = expanded ? data : data.slice(0, 4);
+
+        return fieldsToRender.map((item, index) => (
+            <tr key={index}>
+                <td style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.Timestamp}</td>
+                <td style={{ color: getColorForFEVER(item.FEVER) }}>{item.FEVER}</td>
+                <td style={{ color: getColorForCOUGH(item.COUGH) }}>{item.COUGH}</td>
+                <td style={{ color: getColorForBREATHING_DIFFICULTY(item.BREATHING_DIFFICULTY) }}>{item.BREATHING_DIFFICULTY}</td>
+                <td style={{ color: getColorForFATIGUE(item.FATIGUE) }}>{item.FATIGUE}</td>
+                <td style={{ color: getColorForLOSS_OF_SENSES(item.LOSS_OF_SENSES) }}>{item.LOSS_OF_SENSES}</td>
+                <td style={{ color: getColorForTRAVEL_HISTORY(item.TRAVEL_HISTORY) }}>{item.TRAVEL_HISTORY}</td>
+                <td style={{ color: getColorForCONTACT_WITH_COVID_INFECTED(item.CONTACT_WITH_COVID_INFECTED) }}>{item.CONTACT_WITH_COVID_INFECTED}</td>
+                <td style={{ color: getColorForCOVID_SUSPECTS(item.COVID_SUSPECTS) }}>{item.COVID_SUSPECTS}</td>
+            </tr>
+        ));
+    };
 
     return (
         <div>
             <div className='header'>
-                <h1>Human Vitals Data</h1>
-                <h3>Login: USER1 | <a style={{ color: "inherit" }} href="#">Family Reports</a></h3>
-                <p id='noti'></p><i onClick={copyText} class="gg-copy"></i>
+                <h1>Covid Check Data</h1>
+                <h3>
+                    Login: Patient1 |{' '}
+                    <a style={{ color: 'inherit' }} href="#">
+                        Change Patient
+                    </a>
+                </h3>
+                <p id='noti'></p>
+                <i onClick={copyText} className='gg-copy'></i>
             </div>
-            <table className="data-table">
+            <table className='data-table'>
                 <thead>
                     <tr>
-                        <th>Timestamp</th>
-                        <th>Fever</th>
-                        <th>SBP</th>
-                        <th>DBP</th>
-                        <th>TEMP</th>
-                        <th>PR</th>
-                        <th>RR</th>
+                        <th>TIMESTAMP</th>
+                        <th>FEVER</th>
+                        <th>COUGH</th>
+                        <th>BREATHING DIFFICULTY</th>
+                        <th>FATIGUE</th>
+                        <th>LOSS OF SENSES</th>
+                        <th>TRAVEL HISTORY</th>
+                        <th>CONTACT WITH INFECTED</th>
+                        <th>COVID SUSPECTS</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.Timestamp}</td>
-                            <td style={{ color: getColorForSPO2(item.SPO2) }}>{item.SPO2}</td>
-                            <td style={{ color: getColorForSBP(item.SBP) }}>{item.SBP}</td>
-                            <td style={{ color: getColorForDBP(item.DBP) }}>{item.DBP}</td>
-                            <td style={{ color: getColorForTemp(item.TEMP) }}>{item.TEMP}</td>
-                            <td style={{ color: getColorForPR(item.PR) }}>{item.PR}</td>
-                            <td style={{ color: getColorForRR(item.RR) }}>{item.RR}</td>
-                        </tr>
-                    ))}
+                    {renderTableRows()}
+                    {/* Button row at the end */}
+                    <tr
+                        onClick={() => setExpanded(!expanded)}
+                        style={{
+                            cursor: 'pointer',
+                            textAlign: 'center',
+                            backgroundColor: '#333', // Adjust the background color if needed
+                            color: '#fff', // Adjust the text color if needed
+                        }}
+                    >
+                        <td colSpan="9" style={{ textAlign: "center" }}>
+                            Click to {expanded ? 'Collapse -' : 'Expand +'}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <Link to='/reports' >Navigate to Reports</Link>
+            <Link to='/reports'>Navigate to Reports</Link>
             <span>&nbsp; | &nbsp;</span>
-            <Link to='/doctor' >Navigate to Doctor</Link>
+            <Link to='/doctor'>Navigate to Doctor</Link>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;

@@ -1,7 +1,7 @@
 body {
-  background-color: #000;
-  color: #fff;
-  font-family: Arial, sans-serif;
+  background-color: #181f2b; /* Cold Blue Background */
+  color: #d9e2ec; /* Light Text Color */
+  font-family: 'Courier New', monospace;
   padding: 10px;
 }
 
@@ -19,29 +19,33 @@ body {
 
 .data-table th,
 .data-table td {
-  border: 1px solid #444;
-  padding: 8px;
+  border: 1px solid #394c67; /* Slightly Darker Blue Border */
+  padding: 12px;
+  text-align: left;
 }
 
 .data-table th {
-  background-color: #333;
+  background-color: #394c67; /* Darker Blue Header Background */
   font-weight: bold;
-  text-align: left;
-  color: #fff;
+  color: #d9e2ec;
 }
 
 .data-table tr:nth-child(even) {
-  background-color: #222;
+  background-color: #2e3b4f; /* Slightly Darker Blue Even Row Background */
+}
+
+.data-table tr:nth-child(odd) {
+  background-color: #253241; /* Darker Blue Odd Row Background */
 }
 
 .data-table tr:hover {
-  background-color: #555;
+  background-color: #607a8e; /* Lighter Blue Hover Background */
 }
 
 .header {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
   padding: 10px 8px;
+  padding-bottom: 2px;
+  color: #d9e2ec;
 }
 
 .header h1 {
@@ -50,7 +54,7 @@ body {
 
 .header h3,
 .header p {
-  color: rgb(173, 173, 173);
+  color: #a3b8cc; /* Lighter Blue Text Color */
 }
 
 .header p#noti {
@@ -76,7 +80,7 @@ body {
   width: 14px;
   height: 18px;
   zoom: 0.9;
-  border: 2px solid;
+  border: 2px solid #d9e2ec; /* Light Border Color */
   margin-left: -5px;
   margin-top: -4px;
   cursor: pointer;
@@ -91,10 +95,8 @@ body {
 }
 
 .gg-copy::before {
-  background: linear-gradient(to left, currentColor 5px, transparent 0)
-      no-repeat right top/5px 2px,
-    linear-gradient(to left, currentColor 5px, transparent 0) no-repeat left
-      bottom/ 2px 5px;
+  background: linear-gradient(to left, #d9e2ec 5px, transparent 0) no-repeat right top/5px 2px,
+              linear-gradient(to left, #d9e2ec 5px, transparent 0) no-repeat left bottom/2px 5px;
   box-shadow: inset -4px -4px 0 -2px;
   bottom: -6px;
   right: -6px;
@@ -105,7 +107,7 @@ body {
 .gg-copy::after {
   width: 6px;
   height: 2px;
-  background: currentColor;
+  background: #d9e2ec; /* Light Icon Color */
   left: 2px;
   top: 2px;
   box-shadow: 0 4px 0, 0 8px 0;
@@ -114,9 +116,41 @@ body {
 ul {
   padding-left: 30px;
   line-height: 25px;
-  color: rgb(173, 173, 173);
+  color: #a3b8cc; /* Lighter Blue Text Color */
 }
 
 ul b {
-  color: white;
+  color: #d9e2ec;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 600px) {
+  .data-table th,
+  .data-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .data-table th {
+    text-align: center;
+  }
+
+  .data-table tr,
+  .data-table tbody,
+  .data-table thead,
+  .data-table th,
+  .data-table td {
+    display: block;
+  }
+
+  .data-table tbody {
+    padding: 10px;
+  }
+
+  .data-table th,
+  .data-table td {
+    text-align: left;
+    margin-bottom: 10px;
+  }
 }

@@ -6,33 +6,50 @@ function Doctor() {
     <div className='header'>
       <Link style={{ color: "white" }} to="/">Home</Link>
       <h1 style={{ marginTop: "20px" }}>Patient Data</h1>
-      <p>Anomaly Reported: <b>USER 1</b></p>
+      <p>Anomaly Reported: <b>Patient 1</b></p>
       <h2>Details:</h2>
-      <ul>
-        <li>Patient Name: <b>USER 1</b></li>
-        <li>Address: <b>A-542/1, Ranjit Avenue, Amritsar-143001, Punjab</b></li>
-        <li>Time to reach: <b>9 mins</b></li>
-        <p>Use this to communicate with Authorities</p>
-        <p id='noti'></p><i class="gg-copy"></i>
-      </ul>
-      <details>
-        <summary style={{ marginBottom: 5 }}>First Instance</summary>
-        <ul>
-          <li>Problem Metric: <b>SPO2</b></li>
-          <li>Recorded at: <b>2023-08-14 15:33:14</b></li>
-          <li>Normal Range: <b>(90-96)%</b></li>
-          <li>Your Value: <b>87.03%</b></li>
-        </ul>
-      </details>
-      <details>
-        <summary style={{ marginBottom: 5 }}>Second Instance</summary>
-        <ul>
-          <li>Problem Metric: <b>SPO2</b></li>
-          <li>Recorded at: <b>2023-08-14 15:38:18</b></li>
-          <li>Normal Range: <b>(90-96)%</b></li>
-          <li>Your Value: <b>74.97%</b></li>
-        </ul>
-      </details>
+      <table border="1" style={{ width: "100%", marginTop: "10px" }}>
+        <tr>
+          <td>Patient Name</td>
+          <td><b>Manas Gupta</b></td>
+        </tr>
+        <tr>
+          <td>Address</td>
+          <td><b>A-542/1, Ranjit Avenue, Amritsar-143001, Punjab</b></td>
+        </tr>
+        <tr>
+          <td>Time to reach</td>
+          <td><b>9 mins</b></td>
+        </tr>
+      </table>
+      <p>Use this to communicate with Authorities</p>
+      <p id='noti'></p><i className="gg-copy"></i>
+
+      <h2>Anomaly Details:</h2>
+
+      <table border="1" style={{ width: "100%", marginTop: "10px" }}>
+        <tr>
+          <th>Instance</th>
+          <th>Problem Metric</th>
+          <th>Recorded at</th>
+          <th>Normal Range</th>
+          <th>Your Value</th>
+        </tr>
+        <tr>
+          <td>First Instance</td>
+          <td>SPO2</td>
+          <td>2023-08-14 15:33:14</td>
+          <td>(90-96)%</td>
+          <td>87.03%</td>
+        </tr>
+        <tr>
+          <td>Second Instance</td>
+          <td>SPO2</td>
+          <td>2023-08-14 15:38:18</td>
+          <td>(90-96)%</td>
+          <td>74.97%</td>
+        </tr>
+      </table>
     </div>
   )
 }
