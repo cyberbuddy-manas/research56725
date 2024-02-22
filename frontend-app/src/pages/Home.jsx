@@ -110,7 +110,7 @@ function Home() {
     };
 
     const renderTableRows = () => {
-        const fieldsToRender = expanded ? data : data.slice(0, 4);
+        const fieldsToRender = expanded ? data : data.slice(0, 9);
 
         return fieldsToRender.map((item, index) => (
             <tr key={index}>
@@ -132,7 +132,7 @@ function Home() {
             <div className='header'>
                 <h1>Covid Check Data</h1>
                 <h3>
-                    Login: Patient1 |{' '}
+                    Login: Patient1 (PID:1) |{' '}
                     <a style={{ color: 'inherit' }} href="#">
                         Change Patient
                     </a>
@@ -166,7 +166,7 @@ function Home() {
                             color: '#fff', // Adjust the text color if needed
                         }}
                     >
-                        <td colSpan="9" style={{ textAlign: "center" }}>
+                        <td colSpan="9" style={{ textAlign: "center", color: "white" }}>
                             Click to {expanded ? 'Collapse -' : 'Expand +'}
                         </td>
                     </tr>

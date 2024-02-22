@@ -3,10 +3,8 @@ const cors = require('cors');
 const app = express();
 const { BlobServiceClient } = require("@azure/storage-blob");
 
-// Azure Blob Storage connection string
-const connection_string = "DefaultEndpointsProtocol=https;AccountName=research56724;AccountKey=17dmb4uMuuVghyaSvCxdED8w5oMvv9cLE9Fl3Wuv4iY65aBuLyQKpWL+ZXfGicNwY6yJGr/k1iDi+AStHeHEoA==;EndpointSuffix=core.windows.net";
+const connection_string = "DefaultEndpointsProtocol=https;AccountName=research56725;AccountKey=AG3VjVUx4PHFxs94VAFRLUUzlrU4jLeuXSY2RtB2snP4tKBS+dq4TSazS2ii/if0VAqCRI5qAnEj+ASta2GpPA==;EndpointSuffix=core.windows.net";
 
-// Create a BlobServiceClient instance from the connection string
 const blobServiceClient = BlobServiceClient.fromConnectionString(connection_string);
 
 async function retrieveDataValues(containerClient) {
@@ -36,29 +34,21 @@ async function retrieveDataValues(containerClient) {
     }
 }
 
-// Function to fetch and display the latest data
 async function fetchLatestData(containerClient) {
     try {
         const blobs = await retrieveDataValues(containerClient);
-        // console.log("Retrieved data blobs:", blobs);
-
-        // Perform any additional logic with the latest data here
 
     } catch (error) {
         console.error("Failed to retrieve data blobs:", error.message);
     }
 }
 
-// Example usage
 const containerName = "user1";
 
-// Get or create the container if it doesn't exist
 const containerClient = blobServiceClient.getContainerClient(containerName);
 
-// Fetch the latest data initially
 fetchLatestData(containerClient);
 
-// Enable CORS
 app.use(cors());
 
 app.get('/', async (req, res) => {
